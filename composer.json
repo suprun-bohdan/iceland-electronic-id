@@ -20,10 +20,11 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MyCompany\\IcelandElectronicID\\IslandsServiceProvider"
+                "AdvancedSolutions\\IcelandElectronicId\\IslandsServiceProvider"
             ]
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "license": "MIT"
 }
