@@ -1,0 +1,29 @@
+{
+    "name": "advanced-solutions/iceland-electronic-id",
+    "description": "A Laravel package for islands.is socialite integration",
+    "type": "library",
+    "require": {
+        "laravel/socialite": "^5.15",
+        "illuminate/support": "^10.48"
+    },
+    "autoload": {
+        "psr-4": {
+            "AdvancedSolutions\\IcelandElectronicId\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Bohdan Suprun",
+            "email": "bohdan-suprun@outlook.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "MyCompany\\IcelandElectronicID\\IslandsServiceProvider"
+            ]
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
