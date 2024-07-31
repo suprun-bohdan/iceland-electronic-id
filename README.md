@@ -41,25 +41,50 @@ This package provides integration for Iceland's electronic ID system with Larave
 2. **Update your LoginController:**
     ```php
 
-    public function redirectToIslands()
-    {
-        return Socialite::driver('islands')->redirect();
-    }
+   class AuthController extends Controller
+   {
+   protected $islandsService;
    
-       public function handleIslandsCallback()
-    {
-        $islandsUser = Socialite::driver('islands')->user();
-
-        // Find or create user logic
-        $user = User::firstOrCreate(
-            ['email' => $islandsUser->getEmail()],
-            ['name' => $islandsUser->getName()]
-        );
-
-        Auth::login($user, true);
-
-        return redirect()->intended('dashboard');
-    }
+       public function __construct(IslandsService $islandsService)
+       {
+           $this->islandsService = $islandsService;
+       }
+   
+       public function redirectToIslands()
+       {
+           $query = http_build_query([
+               'client_id' => config('islands.client_id'),
+               'redirect_uri' => config('islands.redirect_uri'),
+               'response_type' => 'code',
+               'scope' => 'openid profile',
+               'state' => csrf_token(),
+           ]);
+   
+           return redirect('https://identity-server.staging01.devland.is/connect/authorize?' . $query);
+       }
+   
+       public function handleIslandsCallback(Request $request)
+       {
+           $code = $request->get('code');
+   
+           try {
+               $tokenData = $this->islandsService->authenticate($code);
+               $userInfo = $this->islandsService->getUserInfo($tokenData['access_token']);
+   
+               // Find or create user logic
+               $user = User::firstOrCreate(
+                   ['email' => $userInfo['email']],
+                   ['name' => $userInfo['name']]
+               );
+   
+               Auth::login($user, true);
+   
+               return redirect()->intended('dashboard');
+           } catch (\Exception $e) {
+               return redirect('/login')->withErrors(['error' => $e->getMessage()]);
+           }
+       }
+   }
     ```
 3. **Update the User model if necessary:**
     ```php
