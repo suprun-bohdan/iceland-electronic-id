@@ -3,7 +3,6 @@
     "description": "A Laravel package for islands.is socialite integration",
     "type": "library",
     "require": {
-        "laravel/socialite": "^5.15",
         "illuminate/support": "^10.48",
         "php": "^7.4|^8.0"
     },
