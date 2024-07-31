@@ -11,7 +11,7 @@ This package provides integration for Iceland's electronic ID system with Larave
    ```
 2. **Publish the configuration file:**
     ```bash
-    php artisan vendor:publish --provider="AdvancedSolutions\IcelandElectronicID\IslandsServiceProvider"
+    php artisan vendor:publish --provider="AdvancedSolutions\IcelandElectronicId\IslandsServiceProvider"
     ```
 3. **Add the Iceland Electronic ID configuration to your:**
     ```dotenv
