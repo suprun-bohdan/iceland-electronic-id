@@ -92,6 +92,6 @@ This package provides integration for Iceland's electronic ID system with Larave
 
 To test the Iceland Electronic ID integration, simply navigate to the login route:
 
-    ```text
+    ```
     http://your-app-url/login/islands
     ```
