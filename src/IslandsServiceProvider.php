@@ -1,12 +1,18 @@
 <?php
 
-namespace AdvancedSolutions\IcelandElectronicID;
+namespace AdvancedSolutions\IcelandElectronicId;
 
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Socialite\Contracts\Factory as SocialiteFactory;
+use Illuminate\Contracts\Container\BindingResolutionException;
 
 class IslandsServiceProvider extends ServiceProvider
 {
+    /**
+     * Bootstrap services.
+     *
+     * @return void
+     */
     public function boot()
     {
         $this->publishes([
@@ -19,6 +25,9 @@ class IslandsServiceProvider extends ServiceProvider
     }
 
     /**
+     * Register services.
+     *
+     * @return void
      * @throws BindingResolutionException
      */
     public function register()
@@ -26,6 +35,12 @@ class IslandsServiceProvider extends ServiceProvider
         $this->app->singleton(IslandsExtendSocialite::class, function ($app) {
             return new IslandsExtendSocialite;
         });
+
+        try {
+            $this->app->make(SocialiteFactory::class);
+        } catch (BindingResolutionException $e) {
+            throw new \RuntimeException('Laravel Socialite is not configured. Please make sure to install and configure laravel/socialite.');
+        }
 
         $this->app->make(IslandsExtendSocialite::class)->handle($this->app['Laravel\Socialite\Contracts\Factory']);
     }
